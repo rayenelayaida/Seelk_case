@@ -9,7 +9,7 @@ spark = SparkSession.builder \
 	.getOrCreate()
 
 
-#################################################### Original ###################################################################
+#################################################### Original #################################################################
 
 
 # Read the csv file "winemag-data-130k-v2.csv" into a Spark DataFrame "df"
@@ -57,7 +57,7 @@ Cleaned_parquet_format  = spark.read.parquet("Cleaned.parquet")
 #Cleaned_parquet_format.toPandas().head()
 
 
-#################################################### Aggregated<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<n< èwéx        f ###################################################################
+#################################################### Aggregated ################################################################
 
 
 # Aggregate the data by country, and calculate the standard deviation of points and store the result into a Spark dataFrame "df_Std"..
