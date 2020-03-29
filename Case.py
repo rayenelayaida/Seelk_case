@@ -8,9 +8,7 @@ spark = SparkSession.builder \
 	.config("spark.some.config.option", "some-value") \
 	.getOrCreate()
 
-
 #################################################### Original #################################################################
-
 
 # Read the csv file "winemag-data-130k-v2.csv" into a Spark DataFrame "df"
 df = spark.read.csv("winemag-data-130k-v2.csv",header=True,sep=",");
@@ -27,9 +25,9 @@ Original_parquet_format  = spark.read.parquet("Original.parquet")
 # Get first rows of the Spark DataFrame "Original_parquet_format" ( remove '#' below)
 #Original_parquet_format.toPandas().head()
 
-
 #################################################### Cleaned ###################################################################
 
+# A list wich contains all the text column names that are going to be removed
 Text_columns_list= ['country','description','designation','province','region_1','region_2',\
              'taster_name','taster_twitter_handle','title','variety','winery']
 
@@ -39,7 +37,6 @@ df_clean = Original_parquet_format
 # Drop all the text columns of "Text_columns_list" from the Spark DataFrame "df_clean" 
 for col in Text_columns_list:
 	df_clean =  df_clean.drop(col)  
-
 
 # Change the column name from "_c0" to "Id".
 df_clean = df_clean.withColumnRenamed("_c0", "Id")
@@ -56,9 +53,7 @@ Cleaned_parquet_format  = spark.read.parquet("Cleaned.parquet")
 # Get first rows of the Spark DataFrame "Cleaned_parquet_format". (only id, points, price) ( remove '#' below)
 #Cleaned_parquet_format.toPandas().head()
 
-
 #################################################### Aggregated ################################################################
-
 
 # Aggregate the data by country, and calculate the standard deviation of points and store the result into a Spark dataFrame "df_Std"..
 df_Std = Original_parquet_format.groupby("country").agg({"points" :"stddev"})
@@ -86,5 +81,3 @@ Aggregated_parquet_format = spark.read.parquet("Aggregated.parquet")
 
 # Get first rows of the Spark DataFrame "Aggregated_parquet_format". (Country, StandardDeviation, Average) ( remove '#' below)
 #Aggregated_parquet_format.toPandas().head()
-
-
