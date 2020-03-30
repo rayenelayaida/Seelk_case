@@ -79,6 +79,7 @@ Make sure you have java installed on your machine. If you don’t,the link below
 <http://tecadmin.net/install-oracle-java-8-jdk-8-ubuntu-via-ppa/>
 ### Step 2
 Go to your home directory 
+
 `cd ~`
 ### Step 3
 Unzip the folder in your home directory using the following command.
@@ -105,6 +106,8 @@ export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
 
 $SPARK_PATH/bin/pyspark --master local[2]
 }`
+
+
 ### Step 7
 Save and exit out of your __.bashrc file.__ Either close the terminal and open a new one or in your terminal type:
 `source .bashrc`
@@ -115,24 +118,5 @@ The __PYSPARK_DRIVER_PYTHON__ parameter and the __PYSPARK_DRIVER_PYTHON_OPTS__pa
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
+Not finished yet 
 
