@@ -1,6 +1,7 @@
 # Main entry point for DataFrame and SQL functionality.
 from pyspark.sql import SparkSession
 from matplotlib.pyplot import plot
+from pyspark.sql.functions import desc
 from pyspark.sql.types import *
  
 # To interact with various spark’s functionality (create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables, and read parquet files).
