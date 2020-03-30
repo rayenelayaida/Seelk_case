@@ -1,5 +1,7 @@
 # Main entry point for DataFrame and SQL functionality.
 from pyspark.sql import SparkSession
+from matplotlib.pyplot import plot
+from pyspark.sql.types import *
  
 # To interact with various spark’s functionality (create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables, and read parquet files).
 spark = SparkSession.builder \
@@ -81,3 +83,24 @@ Aggregated_parquet_format = spark.read.parquet("Aggregated.parquet")
 
 # Get first rows of the Spark DataFrame "Aggregated_parquet_format". (Country, StandardDeviation, Average) ( remove '#' below)
 #Aggregated_parquet_format.toPandas().head()
+
+############################################################# BONUS ###################################################################
+
+# BONUS 1 : The top 5 best wines below 10 USD
+top_5_best_wines_below_10_USD = Original_parquet_format.select("points","price","designation").orderBy(desc("points")).where("price <  10").limit(5)
+# Show the result of the query above ( remove '#' below)
+#top_5_best_wines_below_10_USD.show()
+
+
+# BONUS 2 : The top 5 best wines below 30 USD from Chile
+top_5_best_wines_below_30_USD_from_Chile = Original_parquet_format.select("points","price","designation","country").where("country = 'Chile'")
+top_5_best_wines_below_30_USD_from_Chile= top_5_best_wines_below_30_USD_from_Chile.select("points","price","designation","country").orderBy(desc("points")).where("price < 30").limit(5)
+# Show the result of the query above ( remove '#' below)
+#top_5_best_wines_below_30_USD_from_Chile.show()
+
+
+# BONUS 3 : Create a visualisation of "points" vs "price" from the clean dataset "Cleaned_parquet_format" 
+Cleaned_parquet_format = Cleaned_parquet_format.withColumn("points", Cleaned_parquet_format["points"].cast(FloatType()))
+Cleaned_parquet_format = Cleaned_parquet_format.withColumn("price", Cleaned_parquet_format["price"].cast(FloatType()))
+Cleaned_parquet_format.toPandas().plot(x='points', y='price', style='o',title='Visualisation of points vs price')
+
