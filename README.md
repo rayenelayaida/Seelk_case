@@ -112,11 +112,24 @@ $SPARK_PATH/bin/pyspark --master local[2]
 Save and exit out of your __.bashrc file.__ Either close the terminal and open a new one or in your terminal type:
 `source .bashrc`
 ### Notes
-The __PYSPARK_DRIVER_PYTHON__ parameter and the __PYSPARK_DRIVER_PYTHON_OPTS__parameter are used to launch the __PySpark shell__ in __Jupyter Notebook__. The master parameter is used for setting the master node address. Here we launch Spark locally on 2 cores for local testing.
+The __PYSPARK_DRIVER_PYTHON__ parameter and the __PYSPARK_DRIVER_PYTHON_OPTS__ parameter are used to launch the __PySpark shell__ in __Jupyter Notebook__. The master parameter is used for setting the master node address. Here we launch Spark locally on 2 cores for local testing.
+## Running the code
+### Download the dataset and the code 
+* Download the CSV file of the __wine-reviews dataset__ directly from
+ <https://lengow.s3-eu-west-1.amazonaws.com/winemag-data-130k-v2.csv>
+* Upload the case.py file that contains the code <https://github.com/rayenelayaida/Seelk_case/blob/master/Case.py>
+### Launch PySpark shell in Jupyter Notebook
+ Open the command prompts and type : 
+ `PYSPARK_DRIVER_PYTHON`
+ `PYSPARK_DRIVER_PYTHON_OPTS`
+### Download the dataset and the code 
+Create a new folder on __Jupyter__:
+
+open The folder and __Upload__ the __wine-review dataset__ and the __case.py__ file 
 
 
 
-## Running the tests
 
-Not finished yet 
+ 
+Not finished yet
 
