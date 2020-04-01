@@ -39,7 +39,7 @@ Next, we will edit our __.bashrc__ so we can open a spark notebook in any direct
 ### Step 6 
 Don’t remove anything in your __.bashrc file.__ Add the following to the bottom of your __.bashrc file__
 
-`function snotebook () 
+` function snotebook () 
 {
 #Spark path (based on your computer)
 SPARK_PATH=~/spark-2.0.0-bin-hadoop2.7
@@ -51,7 +51,7 @@ export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
 #export PYSPARK_PYTHON=python3
 
 $SPARK_PATH/bin/pyspark --master local[2]
-}`
+} `
 
 
 ### Step 7
@@ -60,18 +60,62 @@ Save and exit out of your __.bashrc file.__ Either close the terminal and open a
 ### Notes
 The __PYSPARK_DRIVER_PYTHON__ parameter and the __PYSPARK_DRIVER_PYTHON_OPTS__ parameter are used to launch the __PySpark shell__ in __Jupyter Notebook__. The master parameter is used for setting the master node address. Here we launch Spark locally on 2 cores for local testing.
 ## Running the code
-### Download the dataset and the code 
+
+#### Download the dataset and the code 
 * Download the CSV file of the __wine-reviews dataset__ directly from
  <https://lengow.s3-eu-west-1.amazonaws.com/winemag-data-130k-v2.csv>
-* Upload the case.py file that contains the code <https://github.com/rayenelayaida/Seelk_case/blob/master/Case.py>
-### Launch PySpark shell in Jupyter Notebook
+* Download the case.py file that contains the code <https://github.com/rayenelayaida/Seelk_case/blob/master/Case.py>
+#### Launch PySpark shell in Jupyter Notebook
  Open the command prompts and type : 
  `PYSPARK_DRIVER_PYTHON`
  `PYSPARK_DRIVER_PYTHON_OPTS`
-### Download the dataset and the code 
-Create a new folder on __Jupyter__:
 
-open The folder and __Upload__ the __wine-review dataset__ and the __case.py__ file 
+ ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Pyspark_Driver_Python.PNG)
+ 
+####  Create a new folder on __Jupyter__:
+
+ ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Jupyter_NewFolder.PNG)
+
+#### Open The folder and __Upload__ the __wine-review dataset__   
+ ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Upload_DataSet.PNG)
+
+#### Create a new Python 3 file 
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/New_Python3.PNG)
+#### Code execution and result visualisation
+* Copy and paste the first part of the program ( Original ,Cleaned and Aggregated) and then click on execute
+
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/1.PNG)
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/2.PNG)
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/3.PNG)
+
+here, we can see the creation of three folders after execting the code (Original ,Cleaned and Aggregated) 
+
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/3_folders_created.PNG)
+
+###### Original_parquet_format content
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Original_parquet_format.PNG)
+
+###### Cleaned_parquet_format content
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Cleaned_parquet_format.PNG)
+
+###### Aggregated_parquet_format content
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Aggregated_parquet_format.PNG)
+
+##### Bonus 1 : The top 5 best wines below 10 USD
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus1_result.PNG.PNG)
+##### Bonus 2 : the top 5 best wines below 30 USD from Chile
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus2_result.PNG.PNG)
+##### Bonus 3 : creation of a visualisation of points vs price from the clean dataset.
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus3_result.PNG.PNG)
+
+
+
+
+
+
+
+
+
 
 
 
