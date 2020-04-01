@@ -102,11 +102,11 @@ here, we can see the creation of three folders after execting the code (Original
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Aggregated_parquet_format.PNG)
 
 ##### Bonus 1 : The top 5 best wines below 10 USD
-![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus1_result.PNG.PNG)
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus1_result.PNG)
 ##### Bonus 2 : the top 5 best wines below 30 USD from Chile
-![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus2_result.PNG.PNG)
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus2_result.PNG)
 ##### Bonus 3 : creation of a visualisation of points vs price from the clean dataset.
-![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus3_result.PNG.PNG)
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus3_result.PNG)
 
 
 
