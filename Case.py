@@ -3,6 +3,12 @@ from pyspark.sql import SparkSession
 from matplotlib.pyplot import plot
 from pyspark.sql.functions import desc
 from pyspark.sql.types import *
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+from sklearn.neighbors import KNeighborsClassifier
  
 # To interact with various spark’s functionality (create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables, and read parquet files).
 spark = SparkSession.builder \
@@ -96,3 +102,47 @@ Cleaned_parquet_format = Cleaned_parquet_format.withColumn("points", Cleaned_par
 Cleaned_parquet_format = Cleaned_parquet_format.withColumn("price", Cleaned_parquet_format["price"].cast(FloatType()))
 Cleaned_parquet_format.toPandas().plot(x='points', y='price', style='o',title='Visualisation of points vs price')
 
+# BONUS 4 : Predict the points of a wine taking as input the price and the country (using Machine Learning).
+
+# Change the type of both "price" and "points" to float 
+Original_parquet_format = Original_parquet_format.withColumn("points", Original_parquet_format["points"].cast(FloatType()))
+Original_parquet_format = Original_parquet_format.withColumn("price", Original_parquet_format["price"].cast(FloatType()))
+
+BONUS_4 = Original_parquet_format.select(["points","price","country"])
+# delete the Null column of ( "price', "country" , "points")
+BONUS_4 = BONUS_4.filter(BONUS_4.price.isNotNull())
+BONUS_4 = BONUS_4.filter(BONUS_4.points.isNotNull())
+BONUS_4 = BONUS_4.filter(BONUS_4.country.isNotNull())
+
+# convert BONUS_4 to a pandas dataFrame
+X = BONUS_4.select("country","price").toPandas()
+Y = BONUS_4.select("points").toPandas()
+
+# encode a part of a pandas DataFrame " X["country"] " which have a string type 
+le = preprocessing.LabelEncoder()
+X["country"] = le.fit_transform(X["country"])
+
+# Split data into random train and test subsets
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+
+#  Using RIDGE model accuracy  ####################
+clf = Ridge(alpha=1.0, random_state=241)
+clf.fit(X_train, Y_train) 
+clf.score(X_test,Y_test)
+
+# Using RANDOM FOREST CLASSIFIER model accuracy  ##############
+forest = RandomForestClassifier(n_estimators=50)
+forest.fit(X_train,Y_train)         
+forest.score(X_test,Y_test)
+
+# Using LINEAR REGRESSION model accuracy  #################
+lr = LinearRegression()
+lr.fit(X_train, Y_train)
+lr.score(X_test,Y_test)
+
+#  K-NEIGHBORS CLASSIFIER model accuracy  ################
+neigh = KNeighborsClassifier(n_neighbors = 260)
+neigh.fit(X_train, Y_train)
+neigh.score(X_test,Y_test)
+
+######### Prediction of points ############
