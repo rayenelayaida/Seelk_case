@@ -79,6 +79,9 @@ df_Aggregation.write.parquet("Aggregated.parquet")
 # Read back "Aggregated.parquet" file in a Spark DataFrame named "Aggregated_parquet_format".
 Aggregated_parquet_format = spark.read.parquet("Aggregated.parquet")
 
+# Drop the NaN values  from "Aggregated_parquet_format"'s columns 
+Aggregated_parquet_format = Aggregated_parquet_format.dropna()
+
 # Get first rows of the Spark DataFrame "Aggregated_parquet_format". (Country, StandardDeviation, Average) ( remove '#' below)
 #Aggregated_parquet_format.toPandas().head()
 
