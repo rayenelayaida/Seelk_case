@@ -101,6 +101,7 @@ here, we can see the creation of three folders after executing the code (Origina
 ###### Aggregated_parquet_format content
 * With NaN values 
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Aggregated_parquet_format.PNG)
+
 * Without NaN values
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/WithoutNaN_Val.PNG)
 ##### Bonus 1 : The top 5 best wines below 10 USD
