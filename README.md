@@ -99,11 +99,10 @@ here, we can see the creation of three folders after executing the code (Origina
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Cleaned_parquet_format.PNG)
 
 ###### Aggregated_parquet_format content
-* With NaN values 
+
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Aggregated_parquet_format.PNG)
 
-* Without NaN values
-![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/WithoutNaN_Val.PNG)
+* Without NaN values ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/WithoutNaN_Val.PNG)
 ##### Bonus 1 : The top 5 best wines below 10 USD
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus1_result.PNG)
 ##### Bonus 2 : the top 5 best wines below 30 USD from Chile
@@ -111,18 +110,20 @@ here, we can see the creation of three folders after executing the code (Origina
 ##### Bonus 3 : creation of a visualisation of points vs price from the clean dataset.
 ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Bonus3_result.PNG)
 
+##### Bonus 4 : Predict the points of a wine taking as input the price and the country (using Machine Learning).
 
+###### Accuracy of different models
 
+![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Score.PNG)
 
+We note here that the accuracy is about 17 percent.
 
+######  Points prediction with different models 
 
+* RIDGE  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/RidgePrediction.PNG)
 
+* RANDOM FOREST CLASSIFIER  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/RandomForest_pred.PNG)
 
+* LINEAR REGRESSION  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/LinearRegression_pred.PNG)
 
-
-
-
-
- 
-Not finished yet
-
+* K-NEIGHBORS CLASSIFIER ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/KNN_pred.PNG)
