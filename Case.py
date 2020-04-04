@@ -9,6 +9,7 @@ from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.neighbors import KNeighborsClassifier
+import numpy as np
  
 # To interact with various spark’s functionality (create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables, and read parquet files).
 spark = SparkSession.builder \
@@ -107,6 +108,10 @@ Cleaned_parquet_format.toPandas().plot(x='points', y='price', style='o',title='V
 
 # BONUS 4 : Predict the points of a wine taking as input the price and the country (using Machine Learning).
 
+
+################### Prepare train and test data #####################
+
+
 # Change the type of both "price" and "points" to float 
 Original_parquet_format = Original_parquet_format.withColumn("points", Original_parquet_format["points"].cast(FloatType()))
 Original_parquet_format = Original_parquet_format.withColumn("price", Original_parquet_format["price"].cast(FloatType()))
@@ -128,24 +133,91 @@ X["country"] = le.fit_transform(X["country"])
 # Split data into random train and test subsets
 X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
 
-#  Using RIDGE model accuracy  ####################
+
+################### Accuracy of different models #####################
+
+#  RIDGE  ####################
 clf = Ridge(alpha=1.0, random_state=241)
 clf.fit(X_train, Y_train) 
 clf.score(X_test,Y_test)
 
-# Using RANDOM FOREST CLASSIFIER model accuracy  ##############
+# RANDOM FOREST CLASSIFIER  ##############
 forest = RandomForestClassifier(n_estimators=50)
 forest.fit(X_train,Y_train)         
 forest.score(X_test,Y_test)
 
-# Using LINEAR REGRESSION model accuracy  #################
+# LINEAR REGRESSION #################
 lr = LinearRegression()
 lr.fit(X_train, Y_train)
 lr.score(X_test,Y_test)
 
-#  K-NEIGHBORS CLASSIFIER model accuracy  ################
+#  K-NEIGHBORS CLASSIFIER ################
 neigh = KNeighborsClassifier(n_neighbors = 260)
 neigh.fit(X_train, Y_train)
 neigh.score(X_test,Y_test)
 
-######### Prediction of points ############
+########################### Points prediction #############################
+
+#  Using RIDGE ####################
+
+def predict_points_Ridge(Country,Price,X,y):
+    # Split data into train and test subsets
+    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+    clf = Ridge(alpha=1.0, random_state=241)
+    clf.fit(X_train, Y_train)
+    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
+    prediction_points = clf.predict(test)
+    print(prediction_points[0])
+
+#Example: Country = 30 (encoded), price = 15
+predict_points_Ridge(30,15.0,X,y)
+
+
+
+# Using RANDOM FOREST ##############
+
+def predict_points_RandomForest(Country,Price,X,y):
+    # Split data into train and test subsets
+    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+    forest = RandomForestClassifier(n_estimators=50)
+    forest.fit(X_train,np.ravel(Y_train,order='C'))   
+    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
+    prediction_points = forest.predict(test)
+    print(prediction_points[0])
+
+#Example: Country = 30 (encoded), price = 15
+predict_points_RandomForest(30,15.0,X,y)
+
+
+# Using LINEAR REGRESSION  #################
+
+def predict_points_LinearRegression(Country,Price,X,y):
+    # Split data into train and test subsets
+    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+    lr = LinearRegression()
+    lr.fit(X_train, Y_train)  
+    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
+    prediction_points = lr.predict(test)
+    print(prediction_points[0])
+
+#Example: Country = 30 (encoded), price = 15
+predict_points_LinearRegression(30,15.0,X,y)
+
+
+
+#  K-NEIGHBORS CLASSIFIER   ################
+
+def predict_points_KNeighborsClassifier(Country,Price,X,y):
+    # Split data into train and test subsets
+    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+    neigh = KNeighborsClassifier(n_neighbors = 260)
+    neigh.fit(X_train, np.ravel(Y_train,order='C')) 
+    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
+    prediction_points = neigh.predict(test)
+    print(prediction_points[0])
+
+#Example: Country = 30 (encoded), price = 15
+predict_points_KNeighborsClassifier(30,15.0,X,y)
+
+
+
