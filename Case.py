@@ -143,7 +143,7 @@ clf.score(X_test,Y_test)
 
 # RANDOM FOREST CLASSIFIER  ##############
 forest = RandomForestClassifier(n_estimators=50)
-forest.fit(X_train,Y_train)         
+forest.fit(X_train,np.ravel(Y_train,order='C'))         
 forest.score(X_test,Y_test)
 
 # LINEAR REGRESSION #################
@@ -153,14 +153,14 @@ lr.score(X_test,Y_test)
 
 #  K-NEIGHBORS CLASSIFIER ################
 neigh = KNeighborsClassifier(n_neighbors = 260)
-neigh.fit(X_train, Y_train)
+neigh.fit(X_train, np.ravel(Y_train,order='C'))
 neigh.score(X_test,Y_test)
 
 ########################### Points prediction #############################
 
 #  Using RIDGE ####################
 
-def predict_points_Ridge(Country,Price,X,y):
+def predict_points_Ridge(Country,Price,X,Y):
     # Split data into train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
     clf = Ridge(alpha=1.0, random_state=241)
@@ -170,13 +170,13 @@ def predict_points_Ridge(Country,Price,X,y):
     print(prediction_points[0])
 
 #Example: Country = 30 (encoded), price = 15
-predict_points_Ridge(30,15.0,X,y)
+predict_points_Ridge(30,15.0,X,Y)
 
 
 
 # Using RANDOM FOREST ##############
 
-def predict_points_RandomForest(Country,Price,X,y):
+def predict_points_RandomForest(Country,Price,X,Y):
     # Split data into train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
     forest = RandomForestClassifier(n_estimators=50)
@@ -186,12 +186,12 @@ def predict_points_RandomForest(Country,Price,X,y):
     print(prediction_points[0])
 
 #Example: Country = 30 (encoded), price = 15
-predict_points_RandomForest(30,15.0,X,y)
+predict_points_RandomForest(30,15.0,X,Y)
 
 
 # Using LINEAR REGRESSION  #################
 
-def predict_points_LinearRegression(Country,Price,X,y):
+def predict_points_LinearRegression(Country,Price,X,Y):
     # Split data into train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
     lr = LinearRegression()
@@ -201,13 +201,13 @@ def predict_points_LinearRegression(Country,Price,X,y):
     print(prediction_points[0])
 
 #Example: Country = 30 (encoded), price = 15
-predict_points_LinearRegression(30,15.0,X,y)
+predict_points_LinearRegression(30,15.0,X,Y)
 
 
 
 #  K-NEIGHBORS CLASSIFIER   ################
 
-def predict_points_KNeighborsClassifier(Country,Price,X,y):
+def predict_points_KNeighborsClassifier(Country,Price,X,Y):
     # Split data into train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
     neigh = KNeighborsClassifier(n_neighbors = 260)
@@ -217,7 +217,7 @@ def predict_points_KNeighborsClassifier(Country,Price,X,y):
     print(prediction_points[0])
 
 #Example: Country = 30 (encoded), price = 15
-predict_points_KNeighborsClassifier(30,15.0,X,y)
+predict_points_KNeighborsClassifier(30,15.0,X,Y)
 
 
 
