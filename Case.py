@@ -95,10 +95,10 @@ top_5_best_wines_below_10_USD = Original_parquet_format.select("points","price",
 
 
 # BONUS 2 : The top 5 best wines below 30 USD from Chile
-top_5_best_wines_below_30_USD_from_Chile = Original_parquet_format.select("points","price","designation","country").where("country = 'Chile'")
-top_5_best_wines_below_30_USD_from_Chile= top_5_best_wines_below_30_USD_from_Chile.select("points","price","designation","country").orderBy(desc("points")).where("price < 30").limit(5)
+top_5_best_wines_below_30_USD_from_Chile = Original_parquet_format.select("points","price","designation","country").where("country = 'Chile'and price < 30 ").orderBy(desc("points")).limit(5)
 # Show the result of the query above ( remove '#' below)
 #top_5_best_wines_below_30_USD_from_Chile.show()
+
 
 
 # BONUS 3 : Create a visualisation of "points" vs "price" from the clean dataset "Cleaned_parquet_format" 
