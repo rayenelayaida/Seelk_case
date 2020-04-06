@@ -112,18 +112,12 @@ here, we can see the creation of three folders after executing the code (Origina
 
 ##### Bonus 4 : Predict the points of a wine taking as input the price and the country (using Machine Learning).
 
-###### Accuracy of different models
+###### Accuracy and Points prediction with different models 
 
-![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/Score.PNG)
+* RIDGE  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/RIDGE.PNG)
 
-We note here that the accuracy is about 17 percent.
+* RANDOM FOREST CLASSIFIER  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/RF.PNG)
 
-######  Points prediction with different models 
+* LINEAR REGRESSION  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/LR.PNG)
 
-* RIDGE  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/RidgePrediction.PNG)
-
-* RANDOM FOREST CLASSIFIER  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/RandomForest_pred.PNG)
-
-* LINEAR REGRESSION  ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/LinearRegression_pred.PNG)
-
-* K-NEIGHBORS CLASSIFIER ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/KNN_pred.PNG)
+* K-NEIGHBORS CLASSIFIER ![cat](https://github.com/rayenelayaida/Seelk_case/blob/master/ScreenShots/KNN.PNG)
