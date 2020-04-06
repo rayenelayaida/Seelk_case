@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
+from sklearn.metrics import r2_score
  
 # To interact with various spark’s functionality (create DataFrame, register DataFrame as tables, execute SQL over tables, cache tables, and read parquet files).
 spark = SparkSession.builder \
@@ -104,120 +105,138 @@ top_5_best_wines_below_30_USD_from_Chile = Original_parquet_format.select("point
 # BONUS 3 : Create a visualisation of "points" vs "price" from the clean dataset "Cleaned_parquet_format" 
 Cleaned_parquet_format = Cleaned_parquet_format.withColumn("points", Cleaned_parquet_format["points"].cast(FloatType()))
 Cleaned_parquet_format = Cleaned_parquet_format.withColumn("price", Cleaned_parquet_format["price"].cast(FloatType()))
-Cleaned_parquet_format.toPandas().plot(x='points', y='price', style='o',title='Visualisation of points vs price')
+Cleaned_parquet_format.toPandas().plot(x='price', y='points', style='o',title='Visualisation of points vs price')
 
 # BONUS 4 : Predict the points of a wine taking as input the price and the country (using Machine Learning).
 
 
 ################### Prepare train and test data #####################
 
-
 # Change the type of both "price" and "points" to float 
 Original_parquet_format = Original_parquet_format.withColumn("points", Original_parquet_format["points"].cast(FloatType()))
 Original_parquet_format = Original_parquet_format.withColumn("price", Original_parquet_format["price"].cast(FloatType()))
 
-BONUS_4 = Original_parquet_format.select(["points","price","country"])
+BONUS_4 = Original_parquet_format.select("points","price","country")
 # delete the Null column of ( "price', "country" , "points")
 BONUS_4 = BONUS_4.filter(BONUS_4.price.isNotNull())
 BONUS_4 = BONUS_4.filter(BONUS_4.points.isNotNull())
-BONUS_4 = BONUS_4.filter(BONUS_4.country.isNotNull())
-
-# convert BONUS_4 to a pandas dataFrame
-X = BONUS_4.select("country","price").toPandas()
-Y = BONUS_4.select("points").toPandas()
-
-# encode a part of a pandas DataFrame " X["country"] " which have a string type 
-le = preprocessing.LabelEncoder()
-X["country"] = le.fit_transform(X["country"])
-
-# Split data into random train and test subsets
-X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
 
 
-################### Accuracy of different models #####################
+########################### Accuracy and  Points prediction with different models #############################
 
-#  RIDGE  ####################
-clf = Ridge(alpha=1.0, random_state=241)
-clf.fit(X_train, Y_train) 
-clf.score(X_test,Y_test)
+# Using  RIDGE  ###########
 
-# RANDOM FOREST CLASSIFIER  ##############
-forest = RandomForestClassifier(n_estimators=50)
-forest.fit(X_train,np.ravel(Y_train,order='C'))         
-forest.score(X_test,Y_test)
+def predict_points_Ridge(Country,Price,BONUS_4):
+    
+    # preparation of test and training dataset
+    BONUS_4 = BONUS_4.select("points","price","country").where(BONUS_4['country'] == Country)    
+   
+    # convert X and Y to a pandas dataFrame
+    X = BONUS_4.select("price").toPandas()
+    Y = BONUS_4.select("points").toPandas()
 
-# LINEAR REGRESSION #################
-lr = LinearRegression()
-lr.fit(X_train, Y_train)
-lr.score(X_test,Y_test)
-
-#  K-NEIGHBORS CLASSIFIER ################
-neigh = KNeighborsClassifier(n_neighbors = 260)
-neigh.fit(X_train, np.ravel(Y_train,order='C'))
-neigh.score(X_test,Y_test)
-
-########################### Points prediction #############################
-
-#  Using RIDGE ####################
-
-def predict_points_Ridge(Country,Price,X,Y):
-    # Split data into train and test subsets
+    # Split data into random train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+    
+    # Creation of the model
     clf = Ridge(alpha=1.0, random_state=241)
-    clf.fit(X_train, Y_train)
-    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
-    prediction_points = clf.predict(test)
-    print(prediction_points[0])
+    
+    # Model training
+    clf.fit(X_train,Y_train)
+           
+    # Test Modele 
+    pred = clf.predict(X_test)
+    print("Accuracy of the modele when country = ",Country," : ",r2_score(Y_test, np.ravel(pred,order='C')))
+    print("Points prediction when country = ",Country," and price =", Price, ":", pred[0] )             
 
-#Example: Country = 30 (encoded), price = 15
-predict_points_Ridge(30,15.0,X,Y)
+#Example: Country = "Morocco" and  price = 20.0
+predict_points_Ridge("Morocco",20.0,BONUS_4)
 
 
 
 # Using RANDOM FOREST ##############
 
-def predict_points_RandomForest(Country,Price,X,Y):
-    # Split data into train and test subsets
+def predict_points_RandomForest(Country,Price,BONUS_4):
+    # preparation of test and training dataset
+    BONUS_4 = BONUS_4.select("points","price","country").where(BONUS_4['country'] == Country)    
+   
+    # convert X and Y to a pandas dataFrame
+    X = BONUS_4.select("price").toPandas()
+    Y = BONUS_4.select("points").toPandas()
+
+    # Split data into random train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+   
+    # Creation of the model
     forest = RandomForestClassifier(n_estimators=50)
-    forest.fit(X_train,np.ravel(Y_train,order='C'))   
-    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
-    prediction_points = forest.predict(test)
-    print(prediction_points[0])
+    
+    # Model training
+    forest.fit(X_train,np.ravel(Y_train,order='C'))
+           
+    # Test Modele 
+    pred = forest.predict(X_test)
+    forest.score(X_test,Y_test)
+    print("Accuracy of the modele when country = ",Country," : ",r2_score(Y_test, np.ravel(pred,order='C')))
+    print("Points prediction when country = ",Country," and price =", Price, ":", pred[0] )             
+               
 
-#Example: Country = 30 (encoded), price = 15
-predict_points_RandomForest(30,15.0,X,Y)
-
+#Example: Country = "Morocco" and  price = 20.0  
+predict_points_RandomForest("Morocco",20.0,BONUS_4)
 
 # Using LINEAR REGRESSION  #################
 
-def predict_points_LinearRegression(Country,Price,X,Y):
-    # Split data into train and test subsets
+def predict_points_LinearRegression(Country,Price,BONUS_4):
+    # preparation of test and training dataset
+    BONUS_4 = BONUS_4.select("points","price","country").where(BONUS_4['country'] == Country)    
+   
+    # convert X and Y to a pandas dataFrame
+    X = BONUS_4.select("price").toPandas()
+    Y = BONUS_4.select("points").toPandas()
+
+    # Split data into random train and test subsets
     X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+   
+    # Creation of the model
     lr = LinearRegression()
-    lr.fit(X_train, Y_train)  
-    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
-    prediction_points = lr.predict(test)
-    print(prediction_points[0])
-
-#Example: Country = 30 (encoded), price = 15
-predict_points_LinearRegression(30,15.0,X,Y)
-
+    # Model training
+    lr.fit(X_train, Y_train)
+    # Test Modele 
+    pred = lr.predict(X_test)
+    print("Accuracy of the modele when country = ",Country," : ",r2_score(Y_test, np.ravel(pred,order='C')))
+    print("Points prediction when country = ",Country," and price =", Price, ":", pred[0] )             
+    
+#Example: Country = "Morocco" and  price = 20.0    
+predict_points_LinearRegression("Morocco",20.0,BONUS_4)
 
 
 #  K-NEIGHBORS CLASSIFIER   ################
 
-def predict_points_KNeighborsClassifier(Country,Price,X,Y):
-    # Split data into train and test subsets
-    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
-    neigh = KNeighborsClassifier(n_neighbors = 260)
-    neigh.fit(X_train, np.ravel(Y_train,order='C')) 
-    test =X.loc[(X['country'] == Country) & (X['price'] == Price)]
-    prediction_points = neigh.predict(test)
-    print(prediction_points[0])
+def predict_points_KNN(Country,Price,BONUS_4):
+    # preparation of test and training dataset
+    BONUS_4 = BONUS_4.select("points","price","country").where(BONUS_4['country'] == Country)    
+   
+    # convert X and Y to a pandas dataFrame
+    X = BONUS_4.select("price").toPandas()
+    Y = BONUS_4.select("points").toPandas()
 
-#Example: Country = 30 (encoded), price = 15
-predict_points_KNeighborsClassifier(30,15.0,X,Y)
+    # Split data into random train and test subsets
+    X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size = 0.1,random_state = 0)
+   
+    # Creation of the model
+    neigh = KNeighborsClassifier(n_neighbors = 3)
+    
+    # Model training
+    neigh.fit(X_train, np.ravel(Y_train,order='C'))
+           
+    # Test Modele 
+    pred = neigh.predict(X_test)
+    neigh.score(X_test,Y_test)
+    print("Accuracy of the modele when country = ",Country," : ",r2_score(Y_test, np.ravel(pred,order='C')))
+    print("Points prediction when country = ",Country," and price =", Price, ":", pred[0] )             
+           
+
+#Example: Country = "Morocco" and  price = 20.0     
+predict_points_KNN("Morocco",20.0,BONUS_4)
 
 
 
