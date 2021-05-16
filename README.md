@@ -1,4 +1,4 @@
-# Seelk_case
+# Kaggle DataSet
 The goal of this exercise is to prepare and process a small Dataset (50 MB). The dataset was taken from <https://www.kaggle.com/zynicide/wine-reviews>.
 ## About the dataset 
 * id
